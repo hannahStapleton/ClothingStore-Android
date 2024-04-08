@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "624653257315",
+    "project_id": "c20321466-softwarepatterns",
+    "storage_bucket": "c20321466-softwarepatterns.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:624653257315:android:ad2f811c0d2271d519c656",
+        "android_client_info": {
+          "package_name": "c20321466.softwarepatterns.clothingstore"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCl9g9Qtz7vgiDri-cIEqx2MNVSXLsXpP4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
