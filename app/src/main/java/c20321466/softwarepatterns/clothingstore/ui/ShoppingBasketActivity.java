@@ -1,4 +1,7 @@
 package c20321466.softwarepatterns.clothingstore.ui;
 
-public class ShoppingBasketActivity {
+import androidx.appcompat.app.AppCompatActivity;
+
+public class ShoppingBasketActivity extends AppCompatActivity {
+
 }

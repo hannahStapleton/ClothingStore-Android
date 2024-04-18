@@ -1,3 +1,22 @@
 <resources>
     <string name="app_name">Clothing Store</string>
+    <string name="add_to_basket">Add to basket</string>
+    <string name="category">Category</string>
+    <string name="manufacturer">Manufacturer</string>
+    <string name="euro">€</string>
+    <string name="price">Price</string>
+    <string name="title">Title</string>
+    <string name="profile">Profile</string>
+    <string name="home">Home</string>
+    <string name="basket">My Basket</string>
+    <string name="search">Search...</string>
+    <string name="in_stock">IN STOCK</string>
+    <string name="out_of_stock">OUT OF STOCK</string>
+    <string name="register">Register</string>
+    <string name="login">Login</string>
+    <string name="password">Password</string>
+    <string name="email">Email</string>
+    <string name="name">Name</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="shipping_address">Shipping Address</string>
 </resources>

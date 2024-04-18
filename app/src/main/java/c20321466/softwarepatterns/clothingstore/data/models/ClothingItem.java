@@ -1,6 +1,9 @@
 package c20321466.softwarepatterns.clothingstore.data.models;
 
-public class ClothingItem {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class ClothingItem implements Parcelable{
     private String id;
     private String title;
     private String manufacturer;
@@ -21,6 +24,29 @@ public class ClothingItem {
         this.stockLevel = stockLevel;
         this.imageUrl = imageUrl;
     }
+
+    protected ClothingItem(Parcel in) {
+        id = in.readString();
+        title = in.readString();
+        manufacturer = in.readString();
+        price = in.readDouble();
+        category = in.readString();
+        stockLevel = in.readInt();
+        imageUrl = in.readString();
+    }
+
+    public static final Creator<ClothingItem> CREATOR = new Creator<ClothingItem>() {
+        @Override
+        public ClothingItem createFromParcel(Parcel in) {
+            return new ClothingItem(in);
+        }
+
+        @Override
+        public ClothingItem[] newArray(int size) {
+            return new ClothingItem[size];
+        }
+    };
+
 
     public String getId() {
         return id;
@@ -76,5 +102,21 @@ public class ClothingItem {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(title);
+        dest.writeString(manufacturer);
+        dest.writeDouble(price);
+        dest.writeString(category);
+        dest.writeInt(stockLevel);
+        dest.writeString(imageUrl);
     }
 }

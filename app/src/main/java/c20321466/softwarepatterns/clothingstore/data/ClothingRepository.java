@@ -1,31 +1,124 @@
 package c20321466.softwarepatterns.clothingstore.data;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import c20321466.softwarepatterns.clothingstore.data.models.ClothingItem;
+
 public class ClothingRepository {
-    private ClothingItemDao clothingItemDao;
 
-    public ClothingRepository(ClothingItemDao clothingItemDao) {
-        this.clothingItemDao = clothingItemDao;
+    private FirebaseFirestore firestore;
+    private CollectionReference clothingItemsRef;
+
+    public ClothingRepository() {
+        firestore = FirebaseFirestore.getInstance();
+        clothingItemsRef = firestore.collection("clothing_items");
     }
 
-    public void addClothingItem(ClothingItem item, OnCompleteListener<DocumentReference> listener) {
-        clothingItemDao.addClothingItem(item, listener);
+    public LiveData<List<ClothingItem>> getAllClothingItems() {
+        MutableLiveData<List<ClothingItem>> clothingItemsLiveData = new MutableLiveData<>();
+        clothingItemsRef.get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        List<ClothingItem> clothingItems = new ArrayList<>();
+                        for (DocumentSnapshot document : task.getResult()) {
+                            ClothingItem clothingItem = document.toObject(ClothingItem.class);
+                            if (clothingItem != null) {
+                                clothingItems.add(clothingItem);
+                            }
+                        }
+                        clothingItemsLiveData.setValue(clothingItems);
+                    } else {
+                        // Handle error
+                    }
+                });
+        return clothingItemsLiveData;
     }
 
-    public void getClothingItemById(String itemId, OnCompleteListener<DocumentSnapshot> listener) {
-        clothingItemDao.getClothingItemById(itemId, listener);
-    }
+    public LiveData<List<ClothingItem>> searchClothingItems(String searchText, String filter) {
+        MutableLiveData<List<ClothingItem>> filteredItemsLiveData = new MutableLiveData<>();
+        Query query;
+        List<ClothingItem> searchResults = new ArrayList<>();
 
-    public void updateClothingItem(String itemId, ClothingItem updatedItem, OnCompleteListener<Void> listener) {
-        clothingItemDao.updateClothingItem(itemId, updatedItem, listener);
-    }
+        switch (filter.toLowerCase()) {
+            case "title":
+                query = clothingItemsRef.whereGreaterThanOrEqualTo("title", searchText)
+                        .whereLessThanOrEqualTo("title", searchText + "\uf8ff");
+                break;
+            case "category":
+                query = clothingItemsRef.whereEqualTo("category", searchText);
+                break;
+            case "manufacturer":
+                query = clothingItemsRef.whereEqualTo("manufacturer", searchText);
+                break;
+            case "":
+                Query titleQuery = clothingItemsRef.whereGreaterThanOrEqualTo("title", searchText)
+                        .whereLessThanOrEqualTo("title", searchText + "\uf8ff");
 
-    public void updateStockLevel(String itemId, int newStockLevel, OnCompleteListener<Void> listener) {
-        clothingItemDao.updateStockLevel(itemId, newStockLevel, listener);
-    }
+                Query categoryQuery = clothingItemsRef.whereEqualTo("category", searchText);
 
-    public void deleteClothingItem(String itemId, OnCompleteListener<Void> listener) {
-        clothingItemDao.deleteClothingItem(itemId, listener);
-    }
+                Query manufacturerQuery = clothingItemsRef.whereEqualTo("manufacturer", searchText);
 
-    // Additional methods for querying and complex operations can be implemented here
+                // Create a list of Tasks for each query
+                List<Task<QuerySnapshot>> tasks = new ArrayList<>();
+                tasks.add(titleQuery.get());
+                tasks.add(categoryQuery.get());
+                tasks.add(manufacturerQuery.get());
+
+                // Combine results from all queries
+                Tasks.whenAllComplete(tasks).addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (Task<QuerySnapshot> querySnapshotTask : tasks) {
+                            QuerySnapshot querySnapshot = querySnapshotTask.getResult();
+                            if (querySnapshot != null) {
+                                for (DocumentSnapshot document : querySnapshot.getDocuments()) {
+                                    ClothingItem clothingItem = document.toObject(ClothingItem.class);
+                                    if (clothingItem != null) {
+                                        searchResults.add(clothingItem);
+                                    }
+                                }
+                            }
+                        }
+                        // Set search results to LiveData
+                        filteredItemsLiveData.setValue(searchResults);
+                    } else {
+                        // Handle query failure
+                        filteredItemsLiveData.setValue(null); // or handle error state
+                    }
+                });
+                return filteredItemsLiveData;
+            default:
+                query = clothingItemsRef;
+                break;
+        }
+
+        query.get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        List<ClothingItem> filteredItems = new ArrayList<>();
+                        for (DocumentSnapshot document : task.getResult()) {
+                            ClothingItem clothingItem = document.toObject(ClothingItem.class);
+                            if (clothingItem != null) {
+                                filteredItems.add(clothingItem);
+                            }
+                        }
+                        filteredItemsLiveData.setValue(filteredItems);
+                    } else {
+                        filteredItemsLiveData.setValue(null);
+                    }
+                });
+
+        return filteredItemsLiveData;
+    }
 }

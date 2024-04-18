@@ -4,11 +4,8 @@ public class Customer extends User {
     private String shippingAddress;
     private String paymentMethod;
 
-    public Customer() {
-    }
-
-    public Customer(String id, String name, String email, String password, String shippingAddress, String paymentMethod) {
-        super(id, name, email, password);
+    public Customer(String id, String name, String email, String password, String shippingAddress, String paymentMethod, String role) {
+        super(id, name, email, password, role);
         this.shippingAddress = shippingAddress;
         this.paymentMethod = paymentMethod;
     }
