@@ -19,7 +19,7 @@ import c20321466.softwarepatterns.clothingstore.R;
 public class ClothingItemAdapter extends RecyclerView.Adapter<ClothingItemAdapter.ViewHolder> {
 
     private List<ClothingItem> items;
-    private OnItemClickListener itemClickListener;
+    private OnItemClickListener listener;
 
     public void setItems(List<ClothingItem> items) {
         this.items = items;
@@ -27,7 +27,7 @@ public class ClothingItemAdapter extends RecyclerView.Adapter<ClothingItemAdapte
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
-        this.itemClickListener = listener;
+        this.listener = listener;
     }
 
     @NonNull
@@ -84,11 +84,11 @@ public class ClothingItemAdapter extends RecyclerView.Adapter<ClothingItemAdapte
             addToBasketButton = itemView.findViewById(R.id.add_to_basket);
 
             addToBasketButton.setOnClickListener(view -> {
-                if (itemClickListener != null) {
+                if (listener != null) {
                     int position = getAdapterPosition();
                     if (position != RecyclerView.NO_POSITION) {
                         ClothingItem clickedItem = items.get(position);
-                        itemClickListener.onAddToBasketClick(clickedItem);
+                        listener.onAddToBasketClick(clickedItem);
                     }
                 }
             });

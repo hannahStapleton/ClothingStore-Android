@@ -1,25 +1,25 @@
 package c20321466.softwarepatterns.clothingstore.data.models;
 
 public class BasketItem {
-    private String itemId;
+    private String userId;
+    private ClothingItem clothingItem;
     private int quantity;
-    private double pricePerItem;
 
     public BasketItem() {
     }
 
-    public BasketItem(String itemId, int quantity, double pricePerItem) {
-        this.itemId = itemId;
+    public BasketItem(ClothingItem clothingItem, String userId, int quantity) {
+        this.clothingItem = clothingItem;
+        this.userId = userId;
         this.quantity = quantity;
-        this.pricePerItem = pricePerItem;
     }
 
-    public String getItemId() {
-        return itemId;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setItemId(String itemId) {
-        this.itemId = itemId;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public int getQuantity() {
@@ -30,11 +30,7 @@ public class BasketItem {
         this.quantity = quantity;
     }
 
-    public double getPricePerItem() {
-        return pricePerItem;
-    }
-
-    public void setPricePerItem(double pricePerItem) {
-        this.pricePerItem = pricePerItem;
+    public ClothingItem getClothingItem() {
+        return clothingItem;
     }
 }

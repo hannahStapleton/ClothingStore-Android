@@ -6,17 +6,16 @@ import java.util.List;
 public class Order {
     private String id;
     private String customerId;
-    private List<String> clothingItemIds;
-    private Date orderDate;
+    private List<BasketItem> basketItems;
+    private String orderDate;
     private double totalAmount;
 
     public Order() {
     }
 
-    public Order(String id, String customerId, List<String> clothingItemIds, Date orderDate, double totalAmount) {
-        this.id = id;
+    public Order(String customerId, List<BasketItem> basketItems, String orderDate, double totalAmount) {
         this.customerId = customerId;
-        this.clothingItemIds = clothingItemIds;
+        this.basketItems = basketItems;
         this.orderDate = orderDate;
         this.totalAmount = totalAmount;
     }
@@ -38,19 +37,19 @@ public class Order {
         this.customerId = customerId;
     }
 
-    public List<String> getClothingItemIds() {
-        return clothingItemIds;
+    public List<BasketItem> getBasketItems() {
+        return basketItems;
     }
 
-    public void setClothingItemIds(List<String> clothingItemIds) {
-        this.clothingItemIds = clothingItemIds;
+    public void setBasketItems(List<BasketItem> basketItems) {
+        this.basketItems = basketItems;
     }
 
-    public Date getOrderDate() {
+    public String getOrderDate() {
         return orderDate;
     }
 
-    public void setOrderDate(Date orderDate) {
+    public void setOrderDate(String orderDate) {
         this.orderDate = orderDate;
     }
 

@@ -121,4 +121,51 @@ public class ClothingRepository {
 
         return filteredItemsLiveData;
     }
+
+    public LiveData<Boolean> addClothingItem(ClothingItem newItem) {
+        MutableLiveData<Boolean> operationResult = new MutableLiveData<>();
+
+        clothingItemsRef.add(newItem)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        operationResult.setValue(true); // Item added successfully
+                    } else {
+                        operationResult.setValue(false); // Failed to add item
+                    }
+                });
+
+        return operationResult;
+    }
+
+    public LiveData<Boolean> updateClothingItem(String itemId, ClothingItem updatedItem) {
+        MutableLiveData<Boolean> operationResultLiveData = new MutableLiveData<>();
+
+        clothingItemsRef.document(itemId)
+                .set(updatedItem)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        operationResultLiveData.setValue(true); // Operation successful
+                    } else {
+                        operationResultLiveData.setValue(false); // Operation failed
+                    }
+                });
+
+        return operationResultLiveData;
+    }
+
+    public LiveData<Boolean> deleteClothingItem(String itemId) {
+        MutableLiveData<Boolean> operationResultLiveData = new MutableLiveData<>();
+
+        clothingItemsRef.document(itemId)
+                .delete()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        operationResultLiveData.setValue(true); // Operation successful
+                    } else {
+                        operationResultLiveData.setValue(false); // Operation failed
+                    }
+                });
+
+        return operationResultLiveData;
+    }
 }

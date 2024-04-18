@@ -19,4 +19,6 @@
     <string name="name">Name</string>
     <string name="phone_number">Phone Number</string>
     <string name="shipping_address">Shipping Address</string>
+    <string name="total_price_0_00">Total Price: €0.00</string>
+    <string name="purchase_basket">Purchase Basket</string>
 </resources>
