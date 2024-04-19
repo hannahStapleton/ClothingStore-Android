@@ -40,7 +40,7 @@ public class BasketItemAdapter extends RecyclerView.Adapter<BasketItemAdapter.Ba
         holder.textViewPrice.setText(String.format("€%.2f", basketItem.getClothingItem().getPrice()));
 
         // Set the item image (using placeholder image for now)
-        holder.imageViewItem.setImageResource(R.drawable.default_item_image);
+        //holder.imageViewItem.setImageResource(R.drawable.default_item_image);
     }
 
     @Override
