@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace = "c20321466.softwarepatterns.clothingstore"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "c20321466.softwarepatterns.clothingstore"
         minSdk = 26
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -27,8 +27,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_9
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_19
+        targetCompatibility = JavaVersion.VERSION_19
     }
 }
 
